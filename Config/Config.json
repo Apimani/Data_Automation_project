@@ -12,6 +12,10 @@
     "password":	"Dharmavaram1@",
     "driver": "org.postgresql.Driver"
 
+  },
+  "azureadls":
+  {
+    "connection_string": ""
   }
 
 }

@@ -110,6 +110,8 @@ for row in validations:
             data_compare(source, target, row['key_col_list'], Out,row)
 
 
+
+
 print(Out)
 summary = pd.DataFrame(Out)
 summary.to_csv("summary.csv")

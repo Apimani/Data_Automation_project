@@ -60,7 +60,7 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
                 option("url", config_data['url']). \
                 option("user", config_data['user']). \
                 option("password", config_data['password']). \
-                option("query", sql_query). \
+                option("dbquery", sql_query). \
                 option("driver", config_data['driver']).load()
         elif sql_path == 'NA':
             df = spark.read.format("jdbc"). \
@@ -69,6 +69,9 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
                 option("password", config_data['password']). \
                 option("dbtable", path). \
                 option("driver", config_data['driver']).load()
+    elif type =='adls':
+        pass
+
 
     else:
         logger.critical("File format is not found ")
