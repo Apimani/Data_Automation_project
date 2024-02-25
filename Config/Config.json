@@ -16,6 +16,18 @@
   "azureadls":
   {
     "connection_string": ""
+  },
+
+  "snowflake":
+  {
+    "sfURL": "your_snowflake_url",
+    "sfDatabase": "your_database_name",
+    "sfWarehouse": "your_warehouse_name",
+    "sfSchema": "your_schema",
+    "sfWarehouse": "your_warehouse_name",
+    "sfRole": "your_role",
+    "sfUser": "your_username",
+    "sfPassword": "your_password"
   }
 
 }

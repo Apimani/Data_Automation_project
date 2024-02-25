@@ -60,7 +60,7 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
                 option("url", config_data['url']). \
                 option("user", config_data['user']). \
                 option("password", config_data['password']). \
-                option("dbquery", sql_query). \
+                option("query", sql_query). \
                 option("driver", config_data['driver']).load()
         elif sql_path == 'NA':
             df = spark.read.format("jdbc"). \
@@ -69,10 +69,26 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
                 option("password", config_data['password']). \
                 option("dbtable", path). \
                 option("driver", config_data['driver']).load()
-    elif type =='adls':
+    elif format.lower() =='adls':
         pass
+    #cosmosdb, synapse, redshift, google BQ, dynamodb, hbase, AWS S3 bucket, snowflake
+    elif format.lower() == 'snowflake':
 
-
+        sfOptions = {
+            "sfURL": "your_snowflake_url",
+            "sfDatabase": "your_database_name",
+            "sfWarehouse": "your_warehouse_name",
+            "sfSchema": "your_schema",
+            "sfWarehouse": "your_warehouse_name",
+            "sfRole": "your_role",
+            "sfUser": "your_username",
+            "sfPassword": "your_password"
+        }
+        df = spark.read \
+            .format("net.snowflake.spark.snowflake") \
+            .options(**sfOptions) \
+            .option("query", "SELECT * FROM your_table") \
+            .load()
     else:
         logger.critical("File format is not found ")
     return df
