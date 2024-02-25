@@ -9,7 +9,7 @@ def db_read(url,user,password,query,driver,spark):
             .option("password", password) \
             .option("driver",driver)\
             .load()
-    return df
+    return df#
 
 
 
