@@ -3,28 +3,28 @@
 
 name: Python application
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+#on:
+#  push:
+#    branches: [ "master" ]
+#  pull_request:
+#    branches: [ "master" ]
 
-#on:#
-#  workflow_dispatch:
-#    inputs:
-#      environment:
-#        type: choice
-#        options:
-#          - dev
-#          - qa
-#          - prod
-#        description: Deployment environment
-#      space:
-#        type: choice
-#        options:
-#          - synthetic
-#          - actual
-#        description: Deployment environment
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options:
+          - dev
+          - qa
+          - prod
+        description: Deployment environment
+      space:
+        type: choice
+        options:
+          - synthetic
+          - actual
+        description: Deployment environment
 
 permissions:
   contents: read
@@ -52,7 +52,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Execute dev file
       run: python main.py input.environment
-    - name : Execute main.py
+    - name : Execute test.py
       run : python test.py
 
 #
