@@ -18,7 +18,7 @@
     "connection_string": ""
   },
 
-  "snowflake":
+  "snowflake_db":
   {
     "sfURL": "your_snowflake_url",
     "sfDatabase": "your_database_name",
@@ -28,6 +28,10 @@
     "sfRole": "your_role",
     "sfUser": "your_username",
     "sfPassword": "your_password"
+  },
+  "redshift":
+  {
+
   }
 
 }

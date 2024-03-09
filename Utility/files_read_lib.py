@@ -71,19 +71,21 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
                 option("driver", config_data['driver']).load()
     elif format.lower() =='adls':
         pass
+
     #cosmosdb, synapse, redshift, google BQ, dynamodb, hbase, AWS S3 bucket, snowflake
     elif format.lower() == 'snowflake':
-
-        sfOptions = {
-            "sfURL": "your_snowflake_url",
-            "sfDatabase": "your_database_name",
-            "sfWarehouse": "your_warehouse_name",
-            "sfSchema": "your_schema",
-            "sfWarehouse": "your_warehouse_name",
-            "sfRole": "your_role",
-            "sfUser": "your_username",
-            "sfPassword": "your_password"
-        }
+        conf_file_path = pkg_resources.resource_filename('Config', 'config.json')
+        with open(conf_file_path, 'r') as f:
+            config_data = json.loads(f.read())[database]
+        conf_file_path = pkg_resources.resource_filename('Config', 'config.json')
+        with open(conf_file_path, 'r') as f:
+            config_data = json.loads(f.read())[database]
+        if sql_path != "NA":
+            sql_path = pkg_resources.resource_filename('Transformations_queries', sql_path)
+            with open(sql_path, "r") as file:
+                sql_query = file.read()
+            print(sql_query)
+            print(config_data)
         df = spark.read \
             .format("net.snowflake.spark.snowflake") \
             .options(**sfOptions) \
@@ -91,4 +93,5 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
             .load()
     else:
         logger.critical("File format is not found ")
+
     return df
