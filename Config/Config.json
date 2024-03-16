@@ -20,14 +20,13 @@
 
   "snowflake_db":
   {
-    "sfURL": "your_snowflake_url",
-    "sfDatabase": "your_database_name",
-    "sfWarehouse": "your_warehouse_name",
-    "sfSchema": "your_schema",
-    "sfWarehouse": "your_warehouse_name",
-    "sfRole": "your_role",
-    "sfUser": "your_username",
-    "sfPassword": "your_password"
+    "sfURL": "https://zintvmu-pz14565.snowflakecomputing.com",
+    "sfDatabase": "CONTACT_INFO",
+    "sfSchema": "PUBLIC",
+    "sfWarehouse": "COMPUTE_WH",
+    "sfRole": "ACCOUNTADMIN",
+    "sfUser": "KATSREEN100",
+    "sfPassword": "Dharmavaram1@"
   },
   "redshift":
   {

@@ -171,6 +171,8 @@ def data_compare(source, target, keycolumn, Out,row):
     print("*" * 50)
     print("Data compare validation has started ".center(50))
     print("*" * 50)
+    key_col_comma_sep=keycolumn
+
     keycolumn = keycolumn.split(",")
     keycolumn = [i.lower() for i in keycolumn]
     print(keycolumn)
@@ -182,7 +184,7 @@ def data_compare(source, target, keycolumn, Out,row):
     num_fail_count=failed.count()
     source_count = source.count()
     target_count = target.count()
-    columns =  columns = ','.join(keycolumn)
+    columns  = ','.join(keycolumn)
     if num_fail_count > 0:
         write_output(row['batch_id'], "data_compare", row["source"], row["target"], source_count, target_count,
                      num_fail_count, columns, "fail", Out)
@@ -192,6 +194,10 @@ def data_compare(source, target, keycolumn, Out,row):
                      0, columns, "fail", Out)
 
     failed.show(5)
+    failed_records = failed.select(keycolumn).withColumn('has_key', concat(key_col_comma_sep)).drop(keycolumn).collect()['hash_key']
+    source = source.withColumn('has_key', concat(key_col_comma_sep)).filter(f'hash_key in {failed_records}').drop('hash_key')
+    target = target.withColumn('has_key', concat(key_col_comma_sep)).filter(f'hash_key in {failed_records}').drop(
+        'hash_key')
     if failed.count()>0:
         for column in columnList:
             print(column.lower())

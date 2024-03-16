@@ -72,42 +72,54 @@ for row in validations:
     print(row)
     print("Execution started for dataset ".center(80))
     print("*" * 80)
+    try:
+        if row['source_type'] == 'table':
+            source = read_data(row['source_type'], row['source'], spark=spark, database=row['source_db_name'],
+                                   sql_path=row['source_transformation_query_path'])
+        else:
+            source_path = pkg_resources.resource_filename('source_files', row['source'])
+            print("Source_path", source_path)
+            source = read_data(row['source_type'], source_path, spark, schema=row['schema_path'])
 
-    if row['source_type'] == 'table':
-        source = read_data(row['source_type'], row['source'], spark=spark, database=row['source_db_name'],
-                               sql_path=row['source_transformation_query_path'])
-    else:
-        source_path = pkg_resources.resource_filename('source_files', row['source'])
-        print("Source_path", source_path)
-        source = read_data(row['source_type'], source_path, spark, schema=row['schema_path'])
+        if row['target_type'] == 'table':
+            print(row['target_type'], row['target'], row['target_db_name'])
+            target = read_data(row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
+                                   sql_path=row['target_transformation_query_path'])
+        else:
+            target_path = pkg_resources.resource_filename('source_files', row['target'])
+            target = read_data(row['target_type'], target_path, spark)
 
-    if row['target_type'] == 'table':
-        print(row['target_type'], row['target'], row['target_db_name'])
-        target = read_data(row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
-                               sql_path=row['target_transformation_query_path'])
-    else:
-        target_path = pkg_resources.resource_filename('source_files', row['target'])
-        target = read_data(row['target_type'], target_path, spark)
+        source.show(n=2)
+        target.show(n=2)
+        for validation in row['validation_Type']:
 
-    source.show(n=2)
-    target.show(n=2)
-    for validation in row['validation_Type']:
+            print(validation)
+            if validation.strip().lower() == 'count_check':
+                count_check(source, target, Out, row)
+            elif validation == 'duplicate_check':
+                duplicate_check(target, row['key_col_list'], Out, row)
+            elif validation == 'null_value_check':
+                null_value_check(target, row['null_col_list'], Out, row)
+            elif validation == 'uniqueness_check':
+                uniqueness_check(target, row['unique_col_list'], Out, row)
+            elif validation == 'records_present_only_in_source':
+                records_present_only_in_source(source, target, row['key_col_list'], Out, row)
+            elif validation == 'records_present_only_in_target':
+                records_present_only_in_target(source, target, row['key_col_list'], Out, row)
+            elif validation == 'data_compare':
+                data_compare(source, target, row['key_col_list'], Out,row)
+    except:
+        print(f"error during execution of {row},{row['validaton']}")
+    finally:
+        spark.stop()
 
-        print(validation)
-        if validation.strip().lower() == 'count_check':
-            count_check(source, target, Out, row)
-        elif validation == 'duplicate_check':
-            duplicate_check(target, row['key_col_list'], Out, row)
-        elif validation == 'null_value_check':
-            null_value_check(target, row['null_col_list'], Out, row)
-        elif validation == 'uniqueness_check':
-            uniqueness_check(target, row['unique_col_list'], Out, row)
-        elif validation == 'records_present_only_in_source':
-            records_present_only_in_source(source, target, row['key_col_list'], Out, row)
-        elif validation == 'records_present_only_in_target':
-            records_present_only_in_target(source, target, row['key_col_list'], Out, row)
-        elif validation == 'data_compare':
-            data_compare(source, target, row['key_col_list'], Out,row)
+
+
+
+
+
+
+
 
 
 
