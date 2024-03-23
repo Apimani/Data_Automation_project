@@ -26,6 +26,7 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
             with open(schema+'/schema/contact_info_schema.json', 'r') as schema_file:
                 schema = StructType.fromJson(json.load(schema_file))
                 print(schema)
+                print(path)
             df = spark.read.schema(schema).option("header", True).option("delimiter", ",").csv(path)
             logger.info("CSV file has read successfully from the below path" + path)
 
@@ -86,10 +87,19 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
                 sql_query = file.read()
             print(sql_query)
             print(config_data)
+        jar_path = r"C:\Users\A4952\Downloads\snowflake-jdbc-3.14.3.jar"
+
+        # Initialize Spark session
+
+        # JDBC URL for Snowflake
+        jdbc_url = "jdbc:snowflake://zintvmu-pz14565.snowflakecomputing.com/?user=KATSREEN100&password=Dharmavaram2@&warehouse=COMPUTE_WH&db=CONTACT_INFO&schema=PUBLIC"
+
+        # Read data from Snowflake
         df = spark.read \
-            .format("net.snowflake.spark.snowflake") \
-            .options(**sfOptions) \
-            .option("query", "SELECT * FROM your_table") \
+            .format("jdbc") \
+            .option("driver", "net.snowflake.client.jdbc.SnowflakeDriver") \
+            .option("url", jdbc_url) \
+            .option("query", "select * from CONTACT_INFO.PUBLIC.CONTACT_INDO") \
             .load()
     else:
         logger.critical("File format is not found ")

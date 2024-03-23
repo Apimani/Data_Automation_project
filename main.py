@@ -6,6 +6,7 @@ import pandas as pd
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import collect_set
 import datetime
+import openpyxl
 
 batch_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 #print(batch_id)
@@ -68,11 +69,10 @@ schema = ["batch_id",
 
 
 for row in validations:
-    print("*" * 80)
-    print(row)
-    print("Execution started for dataset ".center(80))
-    print("*" * 80)
-    try:
+        print("*" * 80)
+        print(row)
+        print("Execution started for dataset ".center(80))
+        print("*" * 80)
         if row['source_type'] == 'table':
             source = read_data(row['source_type'], row['source'], spark=spark, database=row['source_db_name'],
                                    sql_path=row['source_transformation_query_path'])
@@ -108,10 +108,7 @@ for row in validations:
                 records_present_only_in_target(source, target, row['key_col_list'], Out, row)
             elif validation == 'data_compare':
                 data_compare(source, target, row['key_col_list'], Out,row)
-    except:
-        print(f"error during execution of {row},{row['validaton']}")
-    finally:
-        spark.stop()
+
 
 
 

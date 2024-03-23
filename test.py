@@ -1,37 +1,25 @@
-"""This file will be starting point for automation execution"""
+print("hi")
 
-from Utility.files_read_lib import *
-from Utility.validation_lib import *
-import pandas as pd
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import collect_set
-import datetime
 
-batch_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-#print(batch_id)
+from pyspark.sql import SparkSession
+
+# Create SparkSession
+spark = SparkSession.builder \
+      .master("local[1]") \
+      .appName("SparkByExamples.com") \
+      .getOrCreate()
+dataList = [("Java", 20000), ("Python", 100000), ("Scala", 3000)]
+df=spark.createDataFrame(dataList, schema=['Language','fee'])
+
+df.show()
 
 
-spark = SparkSession.builder.master("local") \
-    .appName("test") \
-    .config("spark.jars.packages", "net.snowflake:snowflake-jdbc:3.13.29,net.snowflake:spark-snowflake_2.13:2.15.0-spark_3.4") \
-    .config("spark.driver.extraClassPath", "net.snowflake:snowflake-jdbc:3.13.29") \
-    .config("spark.executor.extraClassPath", "net.snowflake:snowflake-jdbc:3.13.29") \
-    .getOrCreate()
 
+df = spark.read.csv(r"C:\Users\A4952\PycharmProjects\Data_Automation_project\source_files\Contact_info.csv", header=True, inferSchema=True)
 
-sfOptions =  {
-    "sfURL": "https://zintvmu-pz14565.snowflakecomputing.com",
-    "sfDatabase": "CONTACT_INFO",
-    "sfSchema": "PUBLIC",
-    "sfWarehouse": "COMPUTE_WH",
-    "sfRole": "ACCOUNTADMIN",
-    "sfUser": "katsreen100",
-    "sfPassword": "Dharmavaram2@"
-  }
+# Show the DataFrame
+df.show()
 
-df = spark.read \
-            .format('snowflake') \
-            .options(**sfOptions) \
-            .option("dbtable", "CONTACT_INFO.PUBLIC.CONTACT_INDO") \
-            .load()
-
+# Stop the SparkSession
+spark.stop()
