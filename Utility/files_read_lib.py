@@ -47,6 +47,8 @@ def read_data(format, path, spark, multiline="NA", sql_path=None, database=None,
         df = spark.read.avro(path)
         logger.info("Avro file has read successfully from the below path" + path)
 
+
+
     elif format.lower() == 'table':
         conf_file_path = pkg_resources.resource_filename('Config', 'config.json')
         with open(conf_file_path, 'r') as f:
