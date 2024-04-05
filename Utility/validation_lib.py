@@ -28,11 +28,11 @@ def count_check(sourceDF, targetDF,Out,row):
     if source_count == target_count:
         print("Source count and target count is matching and count is", source_count)
         write_output(row['batch_id'], "count_check", row["source"], row["target"], source_count, target_count, 0,
-                     row['key_col_list'], "pass",Out)
+                     row['key_col_list'], "pass",Out,row['source_type'],row['target_type'])
     else:
         print("Source count and taget count is not matching and difference is", source_count - target_count)
         write_output(row['batch_id'], "count_check", row["source"], row["target"], source_count, target_count, diff,
-                     row['key_col_list'], "fail",Out)
+                     row['key_col_list'], "fail",Out,row['source_type'],row['target_type'])
     print("*" * 40)
     print("count validation completed".center(40))
     print("*" * 40)
@@ -50,11 +50,11 @@ def duplicate_check(dataframe, key_column: list, Out, row):
         print("Duplicates present")
         dup_df.show(10)
         write_output(row['batch_id'], "duplicate_check", row['source'], row["target"], "NOT APP", target_count, failed, row['key_col_list'],
-                     "fail", Out)
+                     "fail", Out,row['source_type'],row['target_type'])
     else:
         print("No duplicates")
         write_output(row['batch_id'], "duplicate_check", row['source'], row["target"], "NOT APP", target_count, failed, row['key_col_list'],
-                     "pass", Out)
+                     "pass", Out,row['source_type'],row['target_type'])
     print("*" * 50)
     print("duplicate validation completed ".center(50))
     print("*" * 50)
@@ -72,11 +72,11 @@ def uniqueness_check(dataframe, unique_column: list, Out, row):
         if dup_df.count() > 0:
             print(f"{column} columns has duplicate")
             dup_df.show(10)
-            write_output(row['batch_id'], "uniqueness_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "fail", Out)
+            write_output(row['batch_id'], "uniqueness_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "fail", Out,row['source_type'],row['target_type'])
 
         else:
             print("All records has unique records")
-            write_output(row['batch_id'], "uniqueness_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "pass", Out)
+            write_output(row['batch_id'], "uniqueness_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "pass", Out,row['source_type'],row['target_type'])
     print("*" * 50)
     print("uniqueness validation completed ".center(50))
     print("*" * 50)
@@ -102,11 +102,11 @@ def null_value_check(dataframe, Null_columns, Out, row):
 
         if failed > 0:
             print(f"{column} columns has Null values")
-            write_output(row['batch_id'], "null_value_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "fail", Out)
+            write_output(row['batch_id'], "null_value_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "fail", Out,row['source_type'],row['target_type'])
 
         else:
             print("No null records present")
-            write_output(row['batch_id'], "null_value_check", row['source'], row["target"], "NOT APP", target_count, 0, column, "pass", Out)
+            write_output(row['batch_id'], "null_value_check", row['source'], row["target"], "NOT APP", target_count, 0, column, "pass", Out,row['source_type'],row['target_type'])
     print("*" * 50)
     print("null value check validation completed ".center(50))
     print("*" * 50)
@@ -128,12 +128,12 @@ def records_present_only_in_target(source, target, keyList: list, Out, row):
     if failed > 0:
         count_compare.filter("SourceCount is null").show()
         write_output(row['batch_id'], "records_present_only_in_target", row["source"], row["target"], source_count, target_count,
-                     failed, columns, "fail", Out)
+                     failed, columns, "fail", Out,row['source_type'],row['target_type'])
 
     else:
         print("No extra records present in source")
         write_output(row['batch_id'], "records_present_only_in_target", row["source"], row["target"], source_count, target_count, 0,
-                     columns, "pass", Out)
+                     columns, "pass", Out,row['source_type'],row['target_type'])
     print("*" * 50)
     print("records_present_only_in_target validation completed ".center(50))
     print("*" * 50)
@@ -155,12 +155,12 @@ def records_present_only_in_source(source, target, keyList, Out, row):
     if failed > 0:
         count_compare.filter("TargetCount is null").show()
         write_output(row['batch_id'], "records_present_only_in_source", row["source"], row["target"], source_count, target_count,
-                     failed, columns, "fail", Out)
+                     failed, columns, "fail", Out,row['source_type'],row['target_type'])
 
     else:
         print("No extra records present")
         write_output(row['batch_id'], "records_present_only_in_source", row["source"], row["target"], source_count, target_count, 0,
-                     columns, "pass", Out)
+                     columns, "pass", Out,row['source_type'],row['target_type'])
     print("*" * 50)
     print("records_present_only_in_source validation completed ".center(50))
     print("*" * 50)
@@ -192,11 +192,11 @@ def data_compare(source, target, keycolumn, Out,row):
 #    print("columns", comma_separated_string)
     if num_fail_count > 0:
         write_output(row['batch_id'], "data_compare", row["source"], row["target"], source_count, target_count,
-                     num_fail_count, columns, "fail", Out)
+                     num_fail_count, columns, "fail", Out,row['source_type'],row['target_type'])
 
     else:
         write_output(row['batch_id'], "data_compare", row["source"], row["target"], source_count, target_count,
-                     0, columns, "fail", Out)
+                     0, columns, "fail", Out,row['source_type'],row['target_type'])
 
     failed.show(5)
     #failed_records = failed.select(keycolumn).withColumn("hash_key", concat(comma_separated_string)).collect()
@@ -354,7 +354,7 @@ def run_compare_for_column(keyList, column, sourceDataFrame, targetDataFrame, sa
 
 
 def write_output(TC_ID, validation_Type, source, target, Number_of_source_Records, Number_of_target_Records,
-                 Number_of_failed_Records, column, Status, Out):
+                 Number_of_failed_Records, column, Status, Out,source_type=None,target_type=None):
     Out["batch_id"].append(TC_ID)
     Out["Source_name"].append(source)
     Out["target_name"].append(target)
@@ -364,6 +364,9 @@ def write_output(TC_ID, validation_Type, source, target, Number_of_source_Record
     Out["Number_of_target_Records"].append(Number_of_target_Records)
     Out["Status"].append(Status)
     Out["Number_of_failed_Records"].append(Number_of_failed_Records)
+    Out["source_type"].append(source_type)
+    Out["target_type"].append(target_type)
+
 
 
 from pyspark.sql.types import *
@@ -397,3 +400,5 @@ def flatten(df):
                                if type(field.dataType) == ArrayType or type(field.dataType) == StructType])
     return df
 
+def send_email(df):
+    pass

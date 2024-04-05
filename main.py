@@ -1,8 +1,12 @@
 """This file will be starting point for automation execution"""
+import os
+import sys
 
 from Utility.files_read_lib import *
 from Utility.validation_lib import *
 import pandas as pd
+
+from Utility.write_db_file_lib import write_summary_table
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import collect_set
 import datetime
@@ -27,6 +31,20 @@ spark = SparkSession.builder.master("local") \
     .config("spark.driver.extraClassPath", jar_path) \
     .config("spark.executor.extraClassPath", jar_path) \
     .getOrCreate()
+
+cwd = os.getcwd()
+# user = os.environ.get('USER')
+# print(user)
+result_local_file = cwd+'\logfile.txt'
+print("result_local_file",result_local_file)
+
+if os.path.exists(result_local_file):
+    os.remove(result_local_file)
+
+file = open(result_local_file, 'a')
+original = sys.stdout
+sys.stdout = file
+
 # template_path = pkg_resources.resource_filename("Config", "Master_Test_Template.xlsx")
 template_path = project_path + '/Config/Master_Test_Template.xlsx'
 print(template_path)
@@ -58,6 +76,8 @@ Out = {"batch_id": [],
        "Number_of_failed_Records": [],
        "column": [],
        "Status": [],
+       "source_type":[],
+       "target_type":[]
        }
 #
 schema = ["batch_id",
@@ -68,9 +88,12 @@ schema = ["batch_id",
           "Number_of_target_Records",
           "Number_of_failed_Records",
           "column",
-          "Status"]
+          "Status",
+          "source_type",
+          "target_type"]
 
-cwd = os.
+
+
 for row in validations:
         print("*" * 80)
         print(row)
@@ -141,7 +164,9 @@ schema = StructType([
     StructField("Number_of_target_Records", IntegerType(), True),
     StructField("Number_of_failed_Records", IntegerType(), True),
     StructField("column", StringType(), True),
-    StructField("Status", StringType(), True)
+    StructField("Status", StringType(), True),
+    StructField("source_type", StringType(), True),
+    StructField("target_type", StringType(), True)
 ])
 
 # Convert Pandas DataFrame to Spark DataFrame
@@ -154,5 +179,7 @@ df2 = df2.withColumnRenamed("source", "Source_name") \
          .withColumnRenamed("target","target_name")
 df2.show()
 
-summary.join(df2, ['validation_Type','Source_name','target_name'], 'inner').show()
+summary= summary.join(df2, ['validation_Type','Source_name','target_name','source_type','target_type'], 'inner')
+
+write_summary_table(summary)
 

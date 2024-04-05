@@ -14,19 +14,19 @@ logger = logging.getLogger()
 
 
 def read_data(format, path, spark, multiline="NOT APPL", sql_path=None, database=None, schema=None):
-    print(schema)
+    #print(schema)
     if format.lower() == 'csv':
         if schema == 'NOT APPL':
             df = spark.read.option("header", True).option("delimiter", ",").csv(path)
             logger.info("CSV file has read successfully from the below path" + path)
         else:
-            print(type(schema))
+            #print(type(schema))
             #schema = pkg_resources.resource_filename("schema", schema)
             schema = os.environ.get("project_path")
             with open(schema+'/schema/contact_info_schema.json', 'r') as schema_file:
                 schema = StructType.fromJson(json.load(schema_file))
-                print(schema)
-                print(path)
+                #print(schema)
+                #print(path)
             df = spark.read.schema(schema).option("header", True).option("delimiter", ",").csv(path)
             logger.info("CSV file has read successfully from the below path" + path)
 
@@ -95,3 +95,4 @@ def read_data(format, path, spark, multiline="NOT APPL", sql_path=None, database
         logger.critical("File format is not found ")
 
     return df
+    #return df.drop(row['exclude'].split(',')
