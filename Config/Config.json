@@ -1,8 +1,8 @@
 {
    "oracle_db": {
-     "url": "jdbc:oracle:thin:@//localhost:1521/freepdb1",
-     "user": "scott",
-     "password": "tiger",
+     "url": "jdbc:oracle:thin:@//localhost:1521/ORCL",
+     "user": "system",
+     "password": "Dharmavaram1@",
      "driver": "oracle.jdbc.driver.OracleDriver"
    },
   "postgre_db":
@@ -13,20 +13,11 @@
     "driver": "org.postgresql.Driver"
 
   },
-  "azureadls":
-  {
-    "connection_string": ""
-  },
-
   "snowflake_db":
   {
-    "sfURL": "https://zintvmu-pz14565.snowflakecomputing.com",
-    "sfDatabase": "CONTACT_INFO",
-    "sfSchema": "PUBLIC",
-    "sfWarehouse": "COMPUTE_WH",
-    "sfRole": "ACCOUNTADMIN",
-    "sfUser": "KATSREEN100",
-    "sfPassword": "Dharmavaram1@"
+    "jdbc_url" : "jdbc:snowflake://zintvmu-pz14565.snowflakecomputing.com/?user=KATSREEN100&password=Dharmavaram2@&warehouse=COMPUTE_WH&db=CONTACT_INFO&schema=PUBLIC",
+    "driver": "net.snowflake.client.jdbc.SnowflakeDriver"
+
   },
   "redshift":
   {

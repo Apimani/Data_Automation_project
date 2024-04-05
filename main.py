@@ -16,8 +16,11 @@ os.environ.setdefault("project_path", os.getcwd())
 project_path = os.environ.get("project_path")
 
 # jar_path = pkg_resources.resource_filename('jars', 'postgresql-42.2.5.jar')
-jar_path = project_path + "/jars/postgresql-42.2.5.jar"
-print(jar_path)
+postgre_jar = project_path + "/jars/postgresql-42.2.5.jar"
+snow_jar = project_path + "/jars/snowflake-jdbc-3.14.3.jar"
+oracle_jar = project_path + "/jars/ojdbc11.jar"
+
+jar_path = postgre_jar+','+snow_jar + ','+oracle_jar
 spark = SparkSession.builder.master("local") \
     .appName("test") \
     .config("spark.jars", jar_path) \
@@ -67,7 +70,7 @@ schema = ["batch_id",
           "column",
           "Status"]
 
-
+cwd = os.
 for row in validations:
         print("*" * 80)
         print(row)
@@ -82,6 +85,10 @@ for row in validations:
             source = read_data(row['source_type'], source_path, spark, schema=row['schema_path'])
 
         if row['target_type'] == 'table':
+            print(row['target_type'], row['target'], row['target_db_name'])
+            target = read_data(row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
+                                   sql_path=row['target_transformation_query_path'])
+        elif row['target_type'] == 'snowflake':
             print(row['target_type'], row['target'], row['target_db_name'])
             target = read_data(row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
                                    sql_path=row['target_transformation_query_path'])
@@ -124,7 +131,22 @@ for row in validations:
 print(Out)
 summary = pd.DataFrame(Out)
 summary.to_csv("summary.csv")
-summary = spark.createDataFrame(summary).withColumn("fail_perce", col('Number_of_failed_Records')/col('Number_of_target_Records'))
+
+schema = StructType([
+    StructField("batch_id", StringType(), True),
+    StructField("validation_Type", StringType(), True),
+    StructField("Source_name", StringType(), True),
+    StructField("target_name", StringType(), True),
+    StructField("Number_of_source_Records", StringType(), True),
+    StructField("Number_of_target_Records", IntegerType(), True),
+    StructField("Number_of_failed_Records", IntegerType(), True),
+    StructField("column", StringType(), True),
+    StructField("Status", StringType(), True)
+])
+
+# Convert Pandas DataFrame to Spark DataFrame
+summary = spark.createDataFrame(summary, schema=schema)
+#summary = spark.createDataFrame(summary)#.withColumn("fail_perce", col('Number_of_failed_Records')/col('Number_of_target_Records').cast('int'))
 df2 = df.select('test_case_id','validation_Type','source','source_type','target','target_type')
 df2.show()
 summary.show()

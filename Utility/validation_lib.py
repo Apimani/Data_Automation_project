@@ -49,11 +49,11 @@ def duplicate_check(dataframe, key_column: list, Out, row):
     if dup_df.count() > 0:
         print("Duplicates present")
         dup_df.show(10)
-        write_output(row['batch_id'], "duplicate_check", "NA", row["target"], "NA", target_count, failed, row['key_col_list'],
+        write_output(row['batch_id'], "duplicate_check", row['source'], row["target"], "NOT APP", target_count, failed, row['key_col_list'],
                      "fail", Out)
     else:
         print("No duplicates")
-        write_output(row['batch_id'], "duplicate_check", "NA", row["target"], "NA", target_count, failed, row['key_col_list'],
+        write_output(row['batch_id'], "duplicate_check", row['source'], row["target"], "NOT APP", target_count, failed, row['key_col_list'],
                      "pass", Out)
     print("*" * 50)
     print("duplicate validation completed ".center(50))
@@ -72,11 +72,11 @@ def uniqueness_check(dataframe, unique_column: list, Out, row):
         if dup_df.count() > 0:
             print(f"{column} columns has duplicate")
             dup_df.show(10)
-            write_output(row['batch_id'], "uniqueness_check", "NA", row["target"], "NA", target_count, failed, column, "fail", Out)
+            write_output(row['batch_id'], "uniqueness_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "fail", Out)
 
         else:
             print("All records has unique records")
-            write_output(row['batch_id'], "uniqueness_check", "NA", row["target"], "NA", target_count, failed, column, "pass", Out)
+            write_output(row['batch_id'], "uniqueness_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "pass", Out)
     print("*" * 50)
     print("uniqueness validation completed ".center(50))
     print("*" * 50)
@@ -98,16 +98,15 @@ def null_value_check(dataframe, Null_columns, Out, row):
                                               )).alias("Null_value_count"))
         # dataframe.createOrReplaceTempView("dataframe")
         # Null_df = spark.sql(f"select count(*) source_cnt from dataframe where {column} is null")
-        print("Null count", Null_df.count())
-        failed = Null_df.count()
+        failed = Null_df.collect()[0][0]
 
-        if Null_df.count() > 0:
+        if failed > 0:
             print(f"{column} columns has Null values")
-            write_output(row['batch_id'], "null_value_check", "NA", row["target"], "NA", target_count, failed, column, "fail", Out)
+            write_output(row['batch_id'], "null_value_check", row['source'], row["target"], "NOT APP", target_count, failed, column, "fail", Out)
 
         else:
             print("No null records present")
-            write_output(row['batch_id'], "null_value_check", "NA", row["target"], "NA", target_count, failed, column, "pass", Out)
+            write_output(row['batch_id'], "null_value_check", row['source'], row["target"], "NOT APP", target_count, 0, column, "pass", Out)
     print("*" * 50)
     print("null value check validation completed ".center(50))
     print("*" * 50)

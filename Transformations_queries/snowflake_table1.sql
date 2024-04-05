@@ -1,1 +1,1 @@
-select c1, c2 from snowflake_table1
+select * from CONTACT_INFO.PUBLIC.CONTACT_INDO
