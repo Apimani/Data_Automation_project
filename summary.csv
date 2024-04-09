@@ -1,10 +1,10 @@
 ,batch_id,validation_Type,Source_name,target_name,Number_of_source_Records,Number_of_target_Records,Number_of_failed_Records,column,Status,source_type,target_type
-0,20240409192733,count_check,Contact_info.csv,contact_info,9,9,0,IDENTIFIER,pass,csv,table
-1,20240409192733,data_compare,Contact_info.csv,Contact_info_t.csv,9,12,9,identifier,fail,csv,csv
-2,20240409192733,duplicate_check,Contact_info.csv,Contact_info_t.csv,NOT APP,12,1,IDENTIFIER,fail,csv,csv
-3,20240409192733,records_present_only_in_target,Contact_info.csv,Contact_info_t.csv,9,12,2,IDENTIFIER,fail,csv,csv
-4,20240409192733,count_check,Contact_info.csv,Contact_info_t.csv,9,12,3,IDENTIFIER,fail,csv,csv
-5,20240409192733,uniqueness_check,Contact_info.csv,Contact_info_t.csv,NOT APP,12,1,Identifier,fail,csv,csv
-6,20240409192733,null_value_check,Contact_info.csv,Contact_info_t.csv,NOT APP,12,0,Identifier,pass,csv,csv
-7,20240409192733,records_present_only_in_source,Contact_info.csv,Contact_info_t.csv,9,12,0,IDENTIFIER,pass,csv,csv
-8,20240409192733,count_check,Contact_info.csv,contact_info,9,10,1,IDENTIFIER,fail,csv,snowflake
+0,20240409194645,count_check,Contact_info.csv,contact_info,9,9,0,IDENTIFIER,pass,csv,table
+1,20240409194645,data_compare,Contact_info.csv,Contact_info_t.csv,9,12,9,identifier,fail,csv,csv
+2,20240409194645,duplicate_check,Contact_info.csv,Contact_info_t.csv,NOT APP,12,1,IDENTIFIER,fail,csv,csv
+3,20240409194645,records_present_only_in_target,Contact_info.csv,Contact_info_t.csv,9,12,2,IDENTIFIER,fail,csv,csv
+4,20240409194645,count_check,Contact_info.csv,Contact_info_t.csv,9,12,3,IDENTIFIER,fail,csv,csv
+5,20240409194645,uniqueness_check,Contact_info.csv,Contact_info_t.csv,NOT APP,12,1,Identifier,fail,csv,csv
+6,20240409194645,null_value_check,Contact_info.csv,Contact_info_t.csv,NOT APP,12,0,Identifier,pass,csv,csv
+7,20240409194645,records_present_only_in_source,Contact_info.csv,Contact_info_t.csv,9,12,0,IDENTIFIER,pass,csv,csv
+8,20240409194645,count_check,Contact_info.csv,contact_info,9,10,1,IDENTIFIER,fail,csv,snowflake

@@ -1,0 +1,433 @@
+C:\Users\A4952\PycharmProjects\Data_Automation_project/Config/Master_Test_Template.xlsx
++------------+--------------------+----------------+-----------+--------------+--------------------------------+--------------------+------------------+-----------+--------------+--------------------------------+------------+------------------+---------------+--------------------+-------------+
+|test_case_id|     validation_Type|          source|source_type|source_db_name|source_transformation_query_path|         schema_path|            target|target_type|target_db_name|target_transformation_query_path|key_col_list|     null_col_list|unique_col_list|     exclude_columns|execution_ind|
++------------+--------------------+----------------+-----------+--------------+--------------------------------+--------------------+------------------+-----------+--------------+--------------------------------+------------+------------------+---------------+--------------------+-------------+
+|      CIFF_1|         count_check|Contact_info.csv|        csv|      NOT APPL|              contact_info_s.sql|contact_info_sche...|Contact_info_t.csv|        csv|      NOT APPL|                        NOT APPL|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
+|      CIFF_2|     duplicate_check|Contact_info.csv|        csv|      NOT APPL|              contact_info_s.sql|contact_info_sche...|Contact_info_t.csv|        csv|      NOT APPL|                        NOT APPL|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
+|      CIFF_3|    uniqueness_check|Contact_info.csv|        csv|      NOT APPL|              contact_info_s.sql|contact_info_sche...|Contact_info_t.csv|        csv|      NOT APPL|                        NOT APPL|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
+|      CIFF_4|    null_value_check|Contact_info.csv|        csv|      NOT APPL|              contact_info_s.sql|contact_info_sche...|Contact_info_t.csv|        csv|      NOT APPL|                        NOT APPL|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
+|      CIFF_5|records_present_o...|Contact_info.csv|        csv|      NOT APPL|              contact_info_s.sql|contact_info_sche...|Contact_info_t.csv|        csv|      NOT APPL|                        NOT APPL|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
+|      CIFF_6|records_present_o...|Contact_info.csv|        csv|      NOT APPL|              contact_info_s.sql|contact_info_sche...|Contact_info_t.csv|        csv|      NOT APPL|                        NOT APPL|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
+|      CIFF_7|        data_compare|Contact_info.csv|        csv|      NOT APPL|              contact_info_s.sql|contact_info_sche...|Contact_info_t.csv|        csv|      NOT APPL|                        NOT APPL|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
+|      CIFR_1|         count_check|Contact_info.csv|        csv|      NOT APPL|                        NOT APPL|contact_info_sche...|      contact_info|      table|    postgre_db|              contact_info_t.sql|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
+|         SN1|         count_check|Contact_info.csv|        csv|      NOT APPL|              contact_info_s.sql|contact_info_sche...|            table1|  snowflake|  snowflake_db|            snowflake_table1.sql|  IDENTIFIER|Identifier,Surname|     Identifier|batch_date,create...|            Y|
++------------+--------------------+----------------+-----------+--------------+--------------------------------+--------------------+------------------+-----------+--------------+--------------------------------+------------+------------------+---------------+--------------------+-------------+
+
++----------------+-----------+--------------+------------------------+--------------------------------+------------------+-----------+--------------+--------------------------------+------------+------------------+---------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+|source          |source_type|source_db_name|schema_path             |source_transformation_query_path|target            |target_type|target_db_name|target_transformation_query_path|key_col_list|null_col_list     |unique_col_list|validation_Type                                                                                                                                 |batch_id      |
++----------------+-----------+--------------+------------------------+--------------------------------+------------------+-----------+--------------+--------------------------------+------------+------------------+---------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+|Contact_info.csv|csv        |NOT APPL      |contact_info_schema.json|contact_info_s.sql              |Contact_info_t.csv|csv        |NOT APPL      |NOT APPL                        |IDENTIFIER  |Identifier,Surname|Identifier     |[data_compare, duplicate_check, records_present_only_in_target, count_check, uniqueness_check, null_value_check, records_present_only_in_source]|20240405102029|
+|Contact_info.csv|csv        |NOT APPL      |contact_info_schema.json|NOT APPL                        |contact_info      |table      |postgre_db    |contact_info_t.sql              |IDENTIFIER  |Identifier,Surname|Identifier     |[count_check]                                                                                                                                   |20240405102029|
+|Contact_info.csv|csv        |NOT APPL      |contact_info_schema.json|contact_info_s.sql              |table1            |snowflake  |snowflake_db  |snowflake_table1.sql            |IDENTIFIER  |Identifier,Surname|Identifier     |[count_check]                                                                                                                                   |20240405102029|
++----------------+-----------+--------------+------------------------+--------------------------------+------------------+-----------+--------------+--------------------------------+------------+------------------+---------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+
+********************************************************************************
+Row(source='Contact_info.csv', source_type='csv', source_db_name='NOT APPL', schema_path='contact_info_schema.json', source_transformation_query_path='contact_info_s.sql', target='Contact_info_t.csv', target_type='csv', target_db_name='NOT APPL', target_transformation_query_path='NOT APPL', key_col_list='IDENTIFIER', null_col_list='Identifier,Surname', unique_col_list='Identifier', validation_Type=['data_compare', 'duplicate_check', 'records_present_only_in_target', 'count_check', 'uniqueness_check', 'null_value_check', 'records_present_only_in_source'], batch_id='20240405102029')
+                         Execution started for dataset                          
+********************************************************************************
+Source_path C:\Users\A4952\PycharmProjects\Data_Automation_project\source_files\Contact_info.csv
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+|Identifier|  Surname|  given_name|middle_initial|suffix|Primary_street_number|primary_street_name|    city|state|zipcode|Primary_street_number_prev|primary_street_name_prev|city_prev|state_prev|zipcode_prev|              Email|     Phone|birthmonth|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+|         1|Kattubadi|Sreenivasulu|          null|  null|                9/566|    Satya sai nagar|Banglore|   KA| 560045|                    23/566|              Bala nagar|Anantapur|        AP|      515671|Kattubadi@gmail.com|8765656553|    199801|
+|         2|     Hari|      Prasad|          null|  null|                9/567|       Shanti nagar|Banglore|   KA| 560045|                    23/567|              Bala nagar|Anantapur|        AP|      515672|Kattubadi@gmail.com|8765656554|    199502|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+only showing top 2 rows
+
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+--------------------+----------+----------+
+|Identifier|  Surname|  given_name|middle_initial|suffix|Primary_street_number|primary_street_name|    city|state|zipcode|Primary_street_number_prev|primary_street_name_prev|city_prev|state_prev|zipcode_prev|               Email|     Phone|birthmonth|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+--------------------+----------+----------+
+|         1|Kattubadi|Sreenivasulu|          null|  null|                9/566|    Satya sai nagar|Banglore|   KA| 560045|                    23/566|              Bala nagar|Anantapur|        AP|      515671|Kattubadi123@gmai...|8765656553|    199801|
+|         2|     Hari|      Prasad|          null|  null|                9/567|       Shanti nagar|Banglore|   KA| 560045|                    23/567|              Bala nagar|Anantapur|        AP|      515672| Kattubadi@gmail.com|8765656554|    199502|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+--------------------+----------+----------+
+only showing top 2 rows
+
+data_compare
+**************************************************
+       Data compare validation has started        
+**************************************************
+['identifier']
+['Identifier', 'Surname', 'given_name', 'middle_initial', 'suffix', 'Primary_street_number', 'primary_street_name', 'city', 'state', 'zipcode', 'Primary_street_number_prev', 'primary_street_name_prev', 'city_prev', 'state_prev', 'zipcode_prev', 'Email', 'Phone', 'birthmonth']
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+--------------------+----------+----------+--------+
+|Identifier|  Surname|  given_name|middle_initial|suffix|Primary_street_number|primary_street_name|    city|state|zipcode|Primary_street_number_prev|primary_street_name_prev|city_prev|state_prev|zipcode_prev|               Email|     Phone|birthmonth|datafrom|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+--------------------+----------+----------+--------+
+|         3|Kattubadi|         Ram|          null|  null|                9/568|     Tirumala nagar|Banglore|   KA| 560045|                    23/568|              Bala nagar|Anantapur|        AP|      515673| Kattubadi@gmail.com|8765656555|    199203|  source|
+|         6|     Hari|    Somanath|          null|  null|                9/571|    Somasekar nagar|Banglore|   KA| 560045|                    23/571|              Bala nagar|Anantapur|        AP|      515676| Kattubadi@gmail.com|8765656558|    198306|  source|
+|         1|Kattubadi|Sreenivasulu|          null|  null|                9/566|    Satya sai nagar|Banglore|   KA| 560045|                    23/566|              Bala nagar|Anantapur|        AP|      515671| Kattubadi@gmail.com|8765656553|    199801|  source|
+|         6|     Hari|    Somanath|          null|  null|                 5555|    Somasekar nagar|Banglore|   KA| 560045|                    23/571|              Bala nagar|Anantapur|        AP|      515676| Kattubadi@gmail.com|8765656558|    198306|  target|
+|         1|Kattubadi|Sreenivasulu|          null|  null|                9/566|    Satya sai nagar|Banglore|   KA| 560045|                    23/566|              Bala nagar|Anantapur|        AP|      515671|Kattubadi123@gmai...|8765656553|    199801|  target|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+--------------------+----------+----------+--------+
+only showing top 5 rows
+
+identifier
+surname
++----------+--------------+--------------+----------+
+|identifier|source_Surname|target_Surname|comparison|
++----------+--------------+--------------+----------+
+|        11|          null|          Arun|     False|
+|        12|          null|          Arun|     False|
+|        12|          null|          Arun|     False|
++----------+--------------+--------------+----------+
+
+given_name
++----------+-----------------+-----------------+----------+
+|identifier|source_given_name|target_given_name|comparison|
++----------+-----------------+-----------------+----------+
+|        11|             null|               LK|     False|
+|        12|             null|               LK|     False|
+|        12|             null|               LK|     False|
++----------+-----------------+-----------------+----------+
+
+middle_initial
++----------+---------------------+---------------------+----------+
+|identifier|source_middle_initial|target_middle_initial|comparison|
++----------+---------------------+---------------------+----------+
+|         1|                 null|                 null|     False|
+|         2|                 null|                 null|     False|
+|         3|                 null|                 null|     False|
+|         4|                 null|                 null|     False|
+|         5|                 null|                 null|     False|
+|         6|                 null|                 null|     False|
+|         7|                 null|                 null|     False|
+|         8|                 null|                 null|     False|
+|         9|                 null|                 null|     False|
+|        11|                 null|                 null|     False|
+|        12|                 null|                 null|     False|
+|        12|                 null|                 null|     False|
++----------+---------------------+---------------------+----------+
+
+suffix
++----------+-------------+-------------+----------+
+|identifier|source_suffix|target_suffix|comparison|
++----------+-------------+-------------+----------+
+|         1|         null|         null|     False|
+|         2|         null|         null|     False|
+|         3|         null|         null|     False|
+|         4|         null|         null|     False|
+|         5|         null|         null|     False|
+|         6|         null|         null|     False|
+|         7|         null|         null|     False|
+|         8|         null|         null|     False|
+|         9|         null|         null|     False|
+|        11|         null|         null|     False|
+|        12|         null|         null|     False|
+|        12|         null|         null|     False|
++----------+-------------+-------------+----------+
+
+primary_street_number
++----------+----------------------------+----------------------------+----------+
+|identifier|source_Primary_street_number|target_Primary_street_number|comparison|
++----------+----------------------------+----------------------------+----------+
+|         6|                       9/571|                        5555|     False|
+|        11|                        null|                       9/575|     False|
+|        12|                        null|                       9/575|     False|
+|        12|                        null|                       9/575|     False|
++----------+----------------------------+----------------------------+----------+
+
+primary_street_name
++----------+--------------------------+--------------------------+----------+
+|identifier|source_primary_street_name|target_primary_street_name|comparison|
++----------+--------------------------+--------------------------+----------+
+|        11|                      null|              Maruti nagar|     False|
+|        12|                      null|              Maruti nagar|     False|
+|        12|                      null|              Maruti nagar|     False|
++----------+--------------------------+--------------------------+----------+
+
+city
++----------+-----------+-----------+----------+
+|identifier|source_city|target_city|comparison|
++----------+-----------+-----------+----------+
+|        11|       null|   Banglore|     False|
+|        12|       null|   Banglore|     False|
+|        12|       null|   Banglore|     False|
++----------+-----------+-----------+----------+
+
+state
++----------+------------+------------+----------+
+|identifier|source_state|target_state|comparison|
++----------+------------+------------+----------+
+|        11|        null|          KA|     False|
+|        12|        null|          KA|     False|
+|        12|        null|          KA|     False|
++----------+------------+------------+----------+
+
+zipcode
++----------+--------------+--------------+----------+
+|identifier|source_zipcode|target_zipcode|comparison|
++----------+--------------+--------------+----------+
+|        11|          null|        560045|     False|
+|        12|          null|        560045|     False|
+|        12|          null|        560045|     False|
++----------+--------------+--------------+----------+
+
+primary_street_number_prev
++----------+---------------------------------+---------------------------------+----------+
+|identifier|source_Primary_street_number_prev|target_Primary_street_number_prev|comparison|
++----------+---------------------------------+---------------------------------+----------+
+|        11|                             null|                           23/575|     False|
+|        12|                             null|                           23/575|     False|
+|        12|                             null|                           23/575|     False|
++----------+---------------------------------+---------------------------------+----------+
+
+primary_street_name_prev
++----------+-------------------------------+-------------------------------+----------+
+|identifier|source_primary_street_name_prev|target_primary_street_name_prev|comparison|
++----------+-------------------------------+-------------------------------+----------+
+|        11|                           null|                     Bala nagar|     False|
+|        12|                           null|                     Bala nagar|     False|
+|        12|                           null|                     Bala nagar|     False|
++----------+-------------------------------+-------------------------------+----------+
+
+city_prev
++----------+----------------+----------------+----------+
+|identifier|source_city_prev|target_city_prev|comparison|
++----------+----------------+----------------+----------+
+|         3|       Anantapur|             ATP|     False|
+|        11|            null|       Anantapur|     False|
+|        12|            null|       Anantapur|     False|
+|        12|            null|       Anantapur|     False|
++----------+----------------+----------------+----------+
+
+state_prev
++----------+-----------------+-----------------+----------+
+|identifier|source_state_prev|target_state_prev|comparison|
++----------+-----------------+-----------------+----------+
+|        11|             null|               AP|     False|
+|        12|             null|               AP|     False|
+|        12|             null|               AP|     False|
++----------+-----------------+-----------------+----------+
+
+zipcode_prev
++----------+-------------------+-------------------+----------+
+|identifier|source_zipcode_prev|target_zipcode_prev|comparison|
++----------+-------------------+-------------------+----------+
+|         3|             515673|              34343|     False|
+|        11|               null|             515680|     False|
+|        12|               null|             515680|     False|
+|        12|               null|             515680|     False|
++----------+-------------------+-------------------+----------+
+
+email
++----------+-------------------+--------------------+----------+
+|identifier|       source_Email|        target_Email|comparison|
++----------+-------------------+--------------------+----------+
+|         1|Kattubadi@gmail.com|Kattubadi123@gmai...|     False|
+|        11|               null| Kattubadi@gmail.com|     False|
+|        12|               null| Kattubadi@gmail.com|     False|
+|        12|               null| Kattubadi@gmail.com|     False|
++----------+-------------------+--------------------+----------+
+
+phone
++----------+------------+------------+----------+
+|identifier|source_Phone|target_Phone|comparison|
++----------+------------+------------+----------+
+|        11|        null|  8765656562|     False|
+|        12|        null|  8765656562|     False|
+|        12|        null|  8765656562|     False|
++----------+------------+------------+----------+
+
+birthmonth
++----------+-----------------+-----------------+----------+
+|identifier|source_birthmonth|target_birthmonth|comparison|
++----------+-----------------+-----------------+----------+
+|        11|             null|           197110|     False|
+|        12|             null|           197110|     False|
+|        12|             null|           197110|     False|
++----------+-----------------+-----------------+----------+
+
+**************************************************
+      Data compare validation has completed       
+**************************************************
+duplicate_check
+**************************************************
+          duplicate validation started            
+**************************************************
+Duplicates present
++----------+-----+
+|IDENTIFIER|count|
++----------+-----+
+|        12|    2|
++----------+-----+
+
+**************************************************
+         duplicate validation completed           
+**************************************************
+records_present_only_in_target
+**************************************************
+records_present_only_in_target validation started 
+**************************************************
+Key column record present in target but not in Source :2
++----------+-----------+-----------+
+|IDENTIFIER|SourceCount|TargetCount|
++----------+-----------+-----------+
+|        11|       null|          1|
+|        12|       null|          2|
++----------+-----------+-----------+
+
+**************************************************
+records_present_only_in_target validation completed 
+**************************************************
+count_check
+**************************************************
+        count validation started        
+**************************************************
+Source count and taget count is not matching and difference is -3
+****************************************
+       count validation completed       
+****************************************
+uniqueness_check
+**************************************************
+          uniqueness validation started           
+**************************************************
+Identifier columns has duplicate
++----------+-----+
+|Identifier|count|
++----------+-----+
+|        12|    2|
++----------+-----+
+
+**************************************************
+         uniqueness validation completed          
+**************************************************
+null_value_check
+**************************************************
+       null value check validation started        
+**************************************************
+No null records present
+No null records present
+**************************************************
+      null value check validation completed       
+**************************************************
+records_present_only_in_source
+**************************************************
+records_present_only_in_source validation has started 
+**************************************************
+Key column record present in Source but not in target :0
+No extra records present
+**************************************************
+records_present_only_in_source validation completed 
+**************************************************
+********************************************************************************
+Row(source='Contact_info.csv', source_type='csv', source_db_name='NOT APPL', schema_path='contact_info_schema.json', source_transformation_query_path='NOT APPL', target='contact_info', target_type='table', target_db_name='postgre_db', target_transformation_query_path='contact_info_t.sql', key_col_list='IDENTIFIER', null_col_list='Identifier,Surname', unique_col_list='Identifier', validation_Type=['count_check'], batch_id='20240405102029')
+                         Execution started for dataset                          
+********************************************************************************
+Source_path C:\Users\A4952\PycharmProjects\Data_Automation_project\source_files\Contact_info.csv
+table contact_info postgre_db
+SELECT * FROM CONTACT_INFO_bronze
+{'url': 'jdbc:postgresql://localhost:5432/postgres', 'user': 'postgres', 'password': 'Dharmavaram1@', 'driver': 'org.postgresql.Driver'}
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+|Identifier|  Surname|  given_name|middle_initial|suffix|Primary_street_number|primary_street_name|    city|state|zipcode|Primary_street_number_prev|primary_street_name_prev|city_prev|state_prev|zipcode_prev|              Email|     Phone|birthmonth|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+|         1|Kattubadi|Sreenivasulu|          null|  null|                9/566|    Satya sai nagar|Banglore|   KA| 560045|                    23/566|              Bala nagar|Anantapur|        AP|      515671|Kattubadi@gmail.com|8765656553|    199801|
+|         2|     Hari|      Prasad|          null|  null|                9/567|       Shanti nagar|Banglore|   KA| 560045|                    23/567|              Bala nagar|Anantapur|        AP|      515672|Kattubadi@gmail.com|8765656554|    199502|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+only showing top 2 rows
+
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+--------------+--------------------+--------------------+-----------+-----------+
+|Identifier|  Surname|  given_name|middle_initial|suffix|Primary_street_number|primary_street_name|    city|state|zipcode|Primary_street_number_prev|primary_street_name_prev|city_prev|state_prev|zipcode_prev|              Email|     phone|birthmonth|    batch_date|         create_date|         update_date|create_user|update_user|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+--------------+--------------------+--------------------+-----------+-----------+
+|         1|KATTUBADI|SREENIVASULU|          null|  null|                9/566|    Satya sai nagar|Banglore|   KA| 560045|                    23/566|              Bala nagar|Anantapur|        AP|      515671|Kattubadi@gmail.com|8765656553|  19980100|20240405095503|2024-04-05 09:55:...|2024-04-05 09:55:...|      A4952|      A4952|
+|         2|     HARI|      PRASAD|          null|  null|                9/567|       Shanti nagar|Banglore|   KA| 560045|                    23/567|              Bala nagar|Anantapur|        AP|      515672|Kattubadi@gmail.com|8765656554|  19950200|20240405095503|2024-04-05 09:55:...|2024-04-05 09:55:...|      A4952|      A4952|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+--------------+--------------------+--------------------+-----------+-----------+
+only showing top 2 rows
+
+count_check
+**************************************************
+        count validation started        
+**************************************************
+Source count and target count is matching and count is 9
+****************************************
+       count validation completed       
+****************************************
+********************************************************************************
+Row(source='Contact_info.csv', source_type='csv', source_db_name='NOT APPL', schema_path='contact_info_schema.json', source_transformation_query_path='contact_info_s.sql', target='table1', target_type='snowflake', target_db_name='snowflake_db', target_transformation_query_path='snowflake_table1.sql', key_col_list='IDENTIFIER', null_col_list='Identifier,Surname', unique_col_list='Identifier', validation_Type=['count_check'], batch_id='20240405102029')
+                         Execution started for dataset                          
+********************************************************************************
+Source_path C:\Users\A4952\PycharmProjects\Data_Automation_project\source_files\Contact_info.csv
+snowflake table1 snowflake_db
+snowflake snowflake_db
+select * from CONTACT_INFO.PUBLIC.CONTACT_INDO
+{'jdbc_url': 'jdbc:snowflake://zintvmu-pz14565.snowflakecomputing.com/?user=KATSREEN100&password=Dharmavaram2@&warehouse=COMPUTE_WH&db=CONTACT_INFO&schema=PUBLIC', 'driver': 'net.snowflake.client.jdbc.SnowflakeDriver'}
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+|Identifier|  Surname|  given_name|middle_initial|suffix|Primary_street_number|primary_street_name|    city|state|zipcode|Primary_street_number_prev|primary_street_name_prev|city_prev|state_prev|zipcode_prev|              Email|     Phone|birthmonth|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+|         1|Kattubadi|Sreenivasulu|          null|  null|                9/566|    Satya sai nagar|Banglore|   KA| 560045|                    23/566|              Bala nagar|Anantapur|        AP|      515671|Kattubadi@gmail.com|8765656553|    199801|
+|         2|     Hari|      Prasad|          null|  null|                9/567|       Shanti nagar|Banglore|   KA| 560045|                    23/567|              Bala nagar|Anantapur|        AP|      515672|Kattubadi@gmail.com|8765656554|    199502|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+only showing top 2 rows
+
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+|IDENTIFIER|  SURNAME|  GIVEN_NAME|MIDDLE_INITIAL|SUFFIX|PRIMARY_STREET_NUMBER|PRIMARY_STREET_NAME|    CITY|STATE|ZIPCODE|PRIMARY_STREET_NUMBER_PREV|PRIMARY_STREET_NAME_PREV|CITY_PREV|STATE_PREV|ZIPCODE_PREV|              EMAIL|     PHONE|BIRTHMONTH|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+|         1|Kattubadi|Sreenivasulu|          null|  null|                9/566|    Satya sai nagar|Banglore|   KA| 560045|                    23/566|              Bala nagar|Anantapur|        AP|      515671|Kattubadi@gmail.com|8765656553|    199801|
+|         2|     Hari|      Prasad|          null|  null|                9/567|       Shanti nagar|Banglore|   KA| 560045|                    23/567|              Bala nagar|Anantapur|        AP|      515672|Kattubadi@gmail.com|8765656554|    199502|
++----------+---------+------------+--------------+------+---------------------+-------------------+--------+-----+-------+--------------------------+------------------------+---------+----------+------------+-------------------+----------+----------+
+only showing top 2 rows
+
+count_check
+**************************************************
+        count validation started        
+**************************************************
+Source count and taget count is not matching and difference is -1
+****************************************
+       count validation completed       
+****************************************
+{'batch_id': ['20240405102029', '20240405102029', '20240405102029', '20240405102029', '20240405102029', '20240405102029', '20240405102029', '20240405102029', '20240405102029', '20240405102029'], 'validation_Type': ['data_compare', 'duplicate_check', 'records_present_only_in_target', 'count_check', 'uniqueness_check', 'null_value_check', 'null_value_check', 'records_present_only_in_source', 'count_check', 'count_check'], 'Source_name': ['Contact_info.csv', 'Contact_info.csv', 'Contact_info.csv', 'Contact_info.csv', 'Contact_info.csv', 'Contact_info.csv', 'Contact_info.csv', 'Contact_info.csv', 'Contact_info.csv', 'Contact_info.csv'], 'target_name': ['Contact_info_t.csv', 'Contact_info_t.csv', 'Contact_info_t.csv', 'Contact_info_t.csv', 'Contact_info_t.csv', 'Contact_info_t.csv', 'Contact_info_t.csv', 'Contact_info_t.csv', 'contact_info', 'table1'], 'Number_of_source_Records': [9, 'NOT APP', 9, 9, 'NOT APP', 'NOT APP', 'NOT APP', 9, 9, 9], 'Number_of_target_Records': [12, 12, 12, 12, 12, 12, 12, 12, 9, 10], 'Number_of_failed_Records': [9, 1, 2, 3, 1, 0, 0, 0, 0, 1], 'column': ['identifier', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'Identifier', 'Identifier', 'Surname', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER'], 'Status': ['fail', 'fail', 'fail', 'fail', 'fail', 'pass', 'pass', 'pass', 'pass', 'fail']}
++------------+--------------------+----------------+-----------+------------------+-----------+
+|test_case_id|     validation_Type|          source|source_type|            target|target_type|
++------------+--------------------+----------------+-----------+------------------+-----------+
+|      CIFF_1|         count_check|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_2|     duplicate_check|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_3|    uniqueness_check|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_4|    null_value_check|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_5|records_present_o...|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_6|records_present_o...|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_7|        data_compare|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFR_1|         count_check|Contact_info.csv|        csv|      contact_info|      table|
+|         SN1|         count_check|Contact_info.csv|        csv|            table1|  snowflake|
++------------+--------------------+----------------+-----------+------------------+-----------+
+
++--------------+--------------------+----------------+------------------+------------------------+------------------------+------------------------+----------+------+
+|      batch_id|     validation_Type|     Source_name|       target_name|Number_of_source_Records|Number_of_target_Records|Number_of_failed_Records|    column|Status|
++--------------+--------------------+----------------+------------------+------------------------+------------------------+------------------------+----------+------+
+|20240405102029|        data_compare|Contact_info.csv|Contact_info_t.csv|                       9|                      12|                       9|identifier|  fail|
+|20240405102029|     duplicate_check|Contact_info.csv|Contact_info_t.csv|                 NOT APP|                      12|                       1|IDENTIFIER|  fail|
+|20240405102029|records_present_o...|Contact_info.csv|Contact_info_t.csv|                       9|                      12|                       2|IDENTIFIER|  fail|
+|20240405102029|         count_check|Contact_info.csv|Contact_info_t.csv|                       9|                      12|                       3|IDENTIFIER|  fail|
+|20240405102029|    uniqueness_check|Contact_info.csv|Contact_info_t.csv|                 NOT APP|                      12|                       1|Identifier|  fail|
+|20240405102029|    null_value_check|Contact_info.csv|Contact_info_t.csv|                 NOT APP|                      12|                       0|Identifier|  pass|
+|20240405102029|    null_value_check|Contact_info.csv|Contact_info_t.csv|                 NOT APP|                      12|                       0|   Surname|  pass|
+|20240405102029|records_present_o...|Contact_info.csv|Contact_info_t.csv|                       9|                      12|                       0|IDENTIFIER|  pass|
+|20240405102029|         count_check|Contact_info.csv|      contact_info|                       9|                       9|                       0|IDENTIFIER|  pass|
+|20240405102029|         count_check|Contact_info.csv|            table1|                       9|                      10|                       1|IDENTIFIER|  fail|
++--------------+--------------------+----------------+------------------+------------------------+------------------------+------------------------+----------+------+
+
++------------+--------------------+----------------+-----------+------------------+-----------+
+|test_case_id|     validation_Type|     Source_name|source_type|       target_name|target_type|
++------------+--------------------+----------------+-----------+------------------+-----------+
+|      CIFF_1|         count_check|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_2|     duplicate_check|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_3|    uniqueness_check|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_4|    null_value_check|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_5|records_present_o...|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_6|records_present_o...|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFF_7|        data_compare|Contact_info.csv|        csv|Contact_info_t.csv|        csv|
+|      CIFR_1|         count_check|Contact_info.csv|        csv|      contact_info|      table|
+|         SN1|         count_check|Contact_info.csv|        csv|            table1|  snowflake|
++------------+--------------------+----------------+-----------+------------------+-----------+
+
++--------------------+----------------+------------------+--------------+------------------------+------------------------+------------------------+----------+------+------------+-----------+-----------+
+|     validation_Type|     Source_name|       target_name|      batch_id|Number_of_source_Records|Number_of_target_Records|Number_of_failed_Records|    column|Status|test_case_id|source_type|target_type|
++--------------------+----------------+------------------+--------------+------------------------+------------------------+------------------------+----------+------+------------+-----------+-----------+
+|         count_check|Contact_info.csv|Contact_info_t.csv|20240405102029|                       9|                      12|                       3|IDENTIFIER|  fail|      CIFF_1|        csv|        csv|
+|         count_check|Contact_info.csv|      contact_info|20240405102029|                       9|                       9|                       0|IDENTIFIER|  pass|      CIFR_1|        csv|      table|
+|         count_check|Contact_info.csv|            table1|20240405102029|                       9|                      10|                       1|IDENTIFIER|  fail|         SN1|        csv|  snowflake|
+|        data_compare|Contact_info.csv|Contact_info_t.csv|20240405102029|                       9|                      12|                       9|identifier|  fail|      CIFF_7|        csv|        csv|
+|     duplicate_check|Contact_info.csv|Contact_info_t.csv|20240405102029|                 NOT APP|                      12|                       1|IDENTIFIER|  fail|      CIFF_2|        csv|        csv|
+|    null_value_check|Contact_info.csv|Contact_info_t.csv|20240405102029|                 NOT APP|                      12|                       0|Identifier|  pass|      CIFF_4|        csv|        csv|
+|    null_value_check|Contact_info.csv|Contact_info_t.csv|20240405102029|                 NOT APP|                      12|                       0|   Surname|  pass|      CIFF_4|        csv|        csv|
+|records_present_o...|Contact_info.csv|Contact_info_t.csv|20240405102029|                       9|                      12|                       0|IDENTIFIER|  pass|      CIFF_5|        csv|        csv|
+|records_present_o...|Contact_info.csv|Contact_info_t.csv|20240405102029|                       9|                      12|                       2|IDENTIFIER|  fail|      CIFF_6|        csv|        csv|
+|    uniqueness_check|Contact_info.csv|Contact_info_t.csv|20240405102029|                 NOT APP|                      12|                       1|Identifier|  fail|      CIFF_3|        csv|        csv|
++--------------------+----------------+------------------+--------------+------------------------+------------------------+------------------------+----------+------+------------+-----------+-----------+
+

@@ -13,7 +13,7 @@ import datetime
 import openpyxl
 
 batch_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-#print(batch_id)
+
 
 
 os.environ.setdefault("project_path", os.getcwd())
@@ -39,12 +39,12 @@ cwd = os.getcwd()
 result_local_file = cwd+'\logfile.txt'
 print("result_local_file",result_local_file)
 
-# if os.path.exists(result_local_file):
-#     os.remove(result_local_file)
-#
-# file = open(result_local_file, 'a')
-# original = sys.stdout
-# sys.stdout = file
+if os.path.exists(result_local_file):
+    os.remove(result_local_file)
+
+file = open(result_local_file, 'a')
+original = sys.stdout
+sys.stdout = file
 
 # template_path = pkg_resources.resource_filename("Config", "Master_Test_Template.xlsx")
 template_path = project_path + '/Config/Master_Test_Template.xlsx'
@@ -104,7 +104,6 @@ for row in validations:
             source = read_data(row,row['source_type'], row['source'], spark=spark, database=row['source_db_name'],
                                    sql_path=row['source_transformation_query_path'])
         else:
-            #source_path = pkg_resources.resource_filename('source_files', row['source'])
             source_path=fetch_source_file_path(row['source'])
             print("Source_path", source_path)
             source = read_data(row,row['source_type'], source_path, spark, schema=row['schema_path'])
@@ -118,7 +117,7 @@ for row in validations:
             target = read_data(row,row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
                                    sql_path=row['target_transformation_query_path'])
         else:
-            target_path = pkg_resources.resource_filename('source_files', row['target'])
+            target_path = fetch_source_file_path(row['target'])
             target = read_data(row,row['target_type'], target_path, spark)
 
         source.show(n=2)
