@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 
-jar_path = r"C:\Users\A4952\Downloads\snowflake-jdbc-3.14.3.jar"
+jar_path = r"/Workspace/Repos/etlbigdataautomation@gmail.com/Data_Automation_project/jars/snowflake-jdbc-3.14.3.jar"
 
 # Initialize Spark session
 spark = SparkSession.builder.master("local") \

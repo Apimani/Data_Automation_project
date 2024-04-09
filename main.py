@@ -36,15 +36,15 @@ spark = SparkSession.builder.master("local") \
 cwd = os.getcwd()
 # user = os.environ.get('USER')
 # print(user)
-result_local_file = cwd+'\logfile.txt'
-print("result_local_file",result_local_file)
+# result_local_file = cwd+'\logfile.txt'
+# print("result_local_file",result_local_file)
 
-if os.path.exists(result_local_file):
-    os.remove(result_local_file)
+# if os.path.exists(result_local_file):
+#     os.remove(result_local_file)
 
-file = open(result_local_file, 'a')
-original = sys.stdout
-sys.stdout = file
+# file = open(result_local_file, 'a')
+# original = sys.stdout
+# sys.stdout = file
 
 # template_path = pkg_resources.resource_filename("Config", "Master_Test_Template.xlsx")
 template_path = project_path + '/Config/Master_Test_Template.xlsx'
