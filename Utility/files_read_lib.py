@@ -5,6 +5,8 @@ import os
 import pkg_resources
 
 from pyspark.sql.types import StructType
+from Utility.general_utility import *
+
 
 logging.basicConfig(filename="newfile.log",
                     level=logging.INFO,  # NDIWEC
@@ -12,21 +14,15 @@ logging.basicConfig(filename="newfile.log",
                     format='%(asctime)s:%(levelname)s:%(message)s')
 logger = logging.getLogger()
 
-
-def read_data(format, path, spark, multiline="NOT APPL", sql_path=None, database=None, schema=None):
+project_path = os.environ.get("project_path")
+def read_data(row,format, path, spark, multiline="NOT APPL", sql_path=None, database=None, schema=None):
     #print(schema)
     if format.lower() == 'csv':
         if schema == 'NOT APPL':
             df = spark.read.option("header", True).option("delimiter", ",").csv(path)
             logger.info("CSV file has read successfully from the below path" + path)
         else:
-            #print(type(schema))
-            #schema = pkg_resources.resource_filename("schema", schema)
-            schema = os.environ.get("project_path")
-            with open(schema+'/schema/contact_info_schema.json', 'r') as schema_file:
-                schema = StructType.fromJson(json.load(schema_file))
-                #print(schema)
-                #print(path)
+            schema = read_schema(row['schema_path'])
             df = spark.read.schema(schema).option("header", True).option("delimiter", ",").csv(path)
             logger.info("CSV file has read successfully from the below path" + path)
 
@@ -48,13 +44,9 @@ def read_data(format, path, spark, multiline="NOT APPL", sql_path=None, database
         logger.info("Avro file has read successfully from the below path" + path)
 
     elif format.lower() == 'table':
-        conf_file_path = pkg_resources.resource_filename('Config', 'config.json')
-        with open(conf_file_path, 'r') as f:
-            config_data = json.loads(f.read())[database]
+        config_data = read_config(database)
         if sql_path != "NOT APPL":
-            sql_path = pkg_resources.resource_filename('Transformations_queries', sql_path)
-            with open(sql_path, "r") as file:
-                sql_query = file.read()
+            sql_query = fetch_transformation_query_path(sql_path)
             print(sql_query)
             print(config_data)
             df = spark.read.format("jdbc"). \
@@ -73,16 +65,12 @@ def read_data(format, path, spark, multiline="NOT APPL", sql_path=None, database
     elif format.lower() =='adls':
         pass
     elif format.lower() == 'snowflake':
-        conf_file_path = pkg_resources.resource_filename('Config', 'config.json')
-        with open(conf_file_path, 'r') as f:
-            print("snowflake", database)
-            config_data = json.loads(f.read())[database]
+        config_data = read_config(database)
         if sql_path != "NOT APPL":
             sql_path = pkg_resources.resource_filename('Transformations_queries', sql_path)
             with open(sql_path, "r") as file:
                 sql_query = file.read()
             print(sql_query)
-            print(config_data)
 
         # Read data from Snowflake
         df = spark.read \

@@ -19,6 +19,7 @@ batch_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 os.environ.setdefault("project_path", os.getcwd())
 project_path = os.environ.get("project_path")
 
+
 # jar_path = pkg_resources.resource_filename('jars', 'postgresql-42.2.5.jar')
 postgre_jar = project_path + "/jars/postgresql-42.2.5.jar"
 snow_jar = project_path + "/jars/snowflake-jdbc-3.14.3.jar"
@@ -38,12 +39,12 @@ cwd = os.getcwd()
 result_local_file = cwd+'\logfile.txt'
 print("result_local_file",result_local_file)
 
-if os.path.exists(result_local_file):
-    os.remove(result_local_file)
-
-file = open(result_local_file, 'a')
-original = sys.stdout
-sys.stdout = file
+# if os.path.exists(result_local_file):
+#     os.remove(result_local_file)
+#
+# file = open(result_local_file, 'a')
+# original = sys.stdout
+# sys.stdout = file
 
 # template_path = pkg_resources.resource_filename("Config", "Master_Test_Template.xlsx")
 template_path = project_path + '/Config/Master_Test_Template.xlsx'
@@ -100,24 +101,25 @@ for row in validations:
         print("Execution started for dataset ".center(80))
         print("*" * 80)
         if row['source_type'] == 'table':
-            source = read_data(row['source_type'], row['source'], spark=spark, database=row['source_db_name'],
+            source = read_data(row,row['source_type'], row['source'], spark=spark, database=row['source_db_name'],
                                    sql_path=row['source_transformation_query_path'])
         else:
-            source_path = pkg_resources.resource_filename('source_files', row['source'])
+            #source_path = pkg_resources.resource_filename('source_files', row['source'])
+            source_path=fetch_source_file_path(row['source'])
             print("Source_path", source_path)
-            source = read_data(row['source_type'], source_path, spark, schema=row['schema_path'])
+            source = read_data(row,row['source_type'], source_path, spark, schema=row['schema_path'])
 
         if row['target_type'] == 'table':
             print(row['target_type'], row['target'], row['target_db_name'])
-            target = read_data(row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
+            target = read_data(row,row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
                                    sql_path=row['target_transformation_query_path'])
         elif row['target_type'] == 'snowflake':
-            print(row['target_type'], row['target'], row['target_db_name'])
-            target = read_data(row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
+            print(row,row['target_type'], row['target'], row['target_db_name'])
+            target = read_data(row,row['target_type'], row['target'], spark=spark, database=row['target_db_name'],
                                    sql_path=row['target_transformation_query_path'])
         else:
             target_path = pkg_resources.resource_filename('source_files', row['target'])
-            target = read_data(row['target_type'], target_path, spark)
+            target = read_data(row,row['target_type'], target_path, spark)
 
         source.show(n=2)
         target.show(n=2)

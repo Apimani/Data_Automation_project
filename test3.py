@@ -1,15 +1,10 @@
-import smtplib
+from Utility.general_utility import *
 
-smtp_server = 'smtp.gmail.com'
-smtp_port = 587
-smtp_username = 'katsreen100@gmail.com'
-smtp_password = 'Kuwait1@'
+print(read_config('oracle_db'))
 
-try:
-    server = smtplib.SMTP(smtp_server, smtp_port)
-    server.starttls()
-    server.login(smtp_username, smtp_password)
-    print("SMTP server configuration is correct.")
-    server.quit()
-except Exception as e:
-    print("SMTP server configuration is incorrect:", e)
+print(read_schema('contact_info_schema.json'))
+
+print(fetch_source_file_path('Contact_info.csv'))
+
+print(fetch_transformation_query_path('contact_info_s.sql'))
+
