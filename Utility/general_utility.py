@@ -16,7 +16,8 @@ def read_config(database):
 def read_schema(schema_file_path):
     path = os.path.dirname(given_path) + '/schema'+ '/' +schema_file_path
     # Read the JSON configuration file
-    with open(path, 'r') as schema_file:
+    print(path)
+    with open(r'/Workspace/Repos/etlbigdataautomation@gmail.com/Data_Automation_project/schema/contact_info_schema.json', 'r') as schema_file:
         schema = StructType.fromJson(json.load(schema_file))
     return schema
 
